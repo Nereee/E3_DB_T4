@@ -1,43 +1,43 @@
-DROP DATABASE IF EXISTS db_ElorrietaZinema;
+-- DROP DATABASE IF EXISTS db_ElorrietaZinema;
 
 CREATE DATABASE IF NOT EXISTS db_ElorrietaZinema;
 USE db_ElorrietaZinema;
 
 CREATE TABLE ZINEMA (
-    idZinema VARCHAR(15) primary key,
-    NIF VARCHAR(15) UNIQUE NOT NULL,
-    izena VARCHAR(20),
-    helbidea VARCHAR(100),
-    telf INT  
+idZinema VARCHAR(15) primary key,
+NIF VARCHAR(15) UNIQUE NOT NULL,
+izena VARCHAR(20),
+helbidea VARCHAR(100),
+telf INT  
 );
 
 
 
 CREATE TABLE FILMA(
-    idFilma INT UNSIGNED AUTO_INCREMENT PRIMARY KEY  ,
-    izena VARCHAR(50),
-    iraupena INT, 
-    argitarapenData VARCHAR(15),
-    generoa VARCHAR(20)
+idFilma INT UNSIGNED AUTO_INCREMENT PRIMARY KEY  ,
+izena VARCHAR(50),
+iraupena INT, 
+argitarapenData VARCHAR(15),
+generoa VARCHAR(20)
 );
 
 CREATE TABLE ARETOA (
-    idAretoa VARCHAR(10),
-    izena VARCHAR(30),
-    idZinema  VARCHAR(15),
-    PRIMARY KEY(idAretoa, idzinema),
-    FOREIGN KEY (idZinema) REFERENCES ZINEMA (idZinema) ON DELETE CASCADE
+idAretoa VARCHAR(10),
+izena VARCHAR(30),
+idZinema  VARCHAR(15),
+PRIMARY KEY(idAretoa, idzinema),
+FOREIGN KEY (idZinema) REFERENCES ZINEMA (idZinema) ON DELETE CASCADE
 );
 
 CREATE TABLE SAIOA(
-    idSaioa INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
-    idFilma INT UNSIGNED,
-    idZinema  VARCHAR(15),
-    idAretoa VARCHAR(10),
-    Eguna VARCHAR(15),
-	Ordua VARCHAR(15),
-	FOREIGN KEY (idFilma) REFERENCES FILMA (idFilma) ON DELETE CASCADE,
-    FOREIGN KEY (idAretoa, idZinema) REFERENCES ARETOA (idAretoa, idZinema) ON DELETE CASCADE
+idSaioa INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
+idFilma INT UNSIGNED,
+idZinema  VARCHAR(15),
+idAretoa VARCHAR(10),
+Eguna VARCHAR(15),
+Ordua VARCHAR(15),
+FOREIGN KEY (idFilma) REFERENCES FILMA (idFilma) ON DELETE CASCADE,
+FOREIGN KEY (idAretoa, idZinema) REFERENCES ARETOA (idAretoa, idZinema) ON DELETE CASCADE
 );
 
 CREATE TABLE BEZEROA (
@@ -61,10 +61,10 @@ idMota int unsigned primary key
 CREATE TABLE EROSKETA (
 idErosketa INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 kant smallint,
-data VARCHAR(15),
+eguna VARCHAR(15),
 deskontua double,
 diru_totala double,
-idmota int unsigned not null ,
+idMota int unsigned not null,
 idBezero INT UNSIGNED,
 FOREIGN KEY (idBezero) REFERENCES BEZEROA (idBezero) ON DELETE CASCADE,
 FOREIGN KEY (idMota) REFERENCES SARRERAMOTA (idMota) ON DELETE CASCADE
@@ -88,7 +88,7 @@ FOREIGN KEY (idSaioa) REFERENCES SAIOA (idSaioa) ON DELETE CASCADE
 
 
 
--- Inserción en la tabla ZINEMA
+-- ZINEMA taulan txertatzea
 INSERT INTO ZINEMA (idZinema, NIF, izena, helbidea, telf) 
 VALUES 
 ('Z01','123456789A', 'ELORRIETA ZINEMA', 'Calle Ejemplo 123', 944028843),
@@ -100,7 +100,7 @@ VALUES
      
 
 
--- Inserción en la tabla FILMA
+-- FILMA taulan txertatzea
 INSERT INTO FILMA (izena, generoa, iraupena, argitarapenData) 
 VALUES 
 ('Expediente Warren: The Conjuring', 'Beldurra', 112, '2022-01-15'),
@@ -140,7 +140,7 @@ VALUES
 ('Drácula', 'Terror', 155, '1931-02-14'),
 ('Cisne negro', 'Terror', 110, '2010-12-03');
 
--- Inserciones de aretos para ELORRIETA ZINEMA (idZinema = 1)
+-- Aretoen txertaketak ELORRIETA ZINEMA (idZinema = 1)
 INSERT INTO ARETOA (idAretoa, izena, idzinema)
 VALUES 
 ("A01", 'Rambo', "Z01"),
@@ -149,7 +149,7 @@ VALUES
 ("A04", 'Chewbacca', "Z01"),
 ("A05", 'Marty McFly', "Z01");
 
--- Inserciones de aretos para ERANDIO ZINEMA (idZinema = 2)
+-- Aretoen txertaketak ERANDIO ZINEMA (idZinema = 2)
 INSERT INTO ARETOA (idAretoa, izena, idzinema)
 VALUES 
 ("A01", 'Terminator',"Z02"),
@@ -158,7 +158,7 @@ VALUES
 ("A04", 'Voldemort', "Z02"),
 ("A05", 'Darth Vader', "Z02");
 
--- Inserciones de aretos para BARAKALDO ZINEMA (idZinema = 3)
+-- Aretoen txertaketa BARAKALDO ZINEMA (idZinema = 3)
 INSERT INTO ARETOA (idAretoa, izena, idzinema)
 VALUES 
 ("A01", 'Hannibal Lecter', "Z03"),
@@ -167,7 +167,7 @@ VALUES
 ("A04", 'The Joker', "Z03"),
 ("A05", 'Hulk', "Z03");
 
--- Inserciones de aretos para SANTUXU ZINEMA (idZinema = 4)
+-- Aretoen txertaketa SANTUXU ZINEMA (idZinema = 4)
 INSERT INTO ARETOA (idAretoa, izena, idzinema)
 VALUES 
 ("A01", 'James Bond', "Z04"),
@@ -176,7 +176,7 @@ VALUES
 ("A04", 'Frodo Bolsón', "Z04"),
 ("A05", 'James T. Kirk', "Z04");
 
--- Inserciones de aretos para BASAURI ZINEMA (idZinema = 5)
+-- Aretoen txertaketa BASAURI ZINEMA (idZinema = 5)
 INSERT INTO ARETOA (idAretoa, izena, idzinema)
 VALUES 
 ("A01", 'Alan Grant', "Z05"),
@@ -186,7 +186,7 @@ VALUES
 ("A05", 'Walter White', "Z05");
 
 
--- Inserción en la tabla BEZEROA
+-- BEZEROA taulan txertatzea
 INSERT INTO BEZEROA (NAN, izena, abizena, erabiltzailea, pasahitza, txartela, tlf_zbk, sexua) 
 VALUES 
 ('12345678A', 'Juan', 'Pérez', 'juanperez', 'pasahitza', 12345678, 666123456, 'Gizonezkoa'),
@@ -200,14 +200,84 @@ VALUES
 ('45612378I', 'Hegoi', 'Vazquez', 'hegoivazquez', '123456', 45612378, 666901234, 'Gizonezkoa'),
 ('98741236J', 'Mikel', 'Martin', 'mikelmartin', 'password', 98741236, 666012345, 'Gizonezkoa');
 
--- Inserción en la tabla SARRERAMOTA
+-- SARRERAMOTA taulan txertatzea
 INSERT INTO SARRERAMOTA (kostua, idMota) 
 VALUES (8.90, 1),(6.90, 2),(6.90, 3);
 
+-- EROSKETA taulan txertatzea
+INSERT INTO EROSKETA (kant, eguna, idmota, idBezero)
+VALUES
+(3, '2024-02-09', 2, 9),
+(5, '2024-02-10', 1, 8),
+(5, '2024-02-10', 1, 7);
+
+-- SARRERA taulan txertatzea
+INSERT INTO SARRERA (idErosketa, idSaioa)
+VALUES
+(1, 100),
+(2, 169),
+(3, 169);
+
+
+-- -------------------------KONTSULTAK-------------------------------------------------------------
+
+#1 Iaz diru gehien aportatu duten filmen zerrenda osoa dementsio
+#desberdinak erabiliz aztertzeko.
 
 
 
+    
+#2Film gehien ikusi dituzten erabiltzaileak
+												-- Erosketak dira zenbat erosketan egin diren, ez zenbat sarrera erosi diren.
+SELECT f.izena AS Pelickula, COUNT(s.idSarrera) AS Erosketak -- S.idErosketa
+FROM FILMA f
+JOIN SAIOA sa ON f.idFilma = sa.idFilma 
+JOIN SARRERA s ON sa.idSaioa = s.idSaioa
+GROUP BY f.izena
+ORDER BY Erosketak DESC
+LIMIT 5;
+
+#3 Film genero bakoitzeko, estadistikak
+
+-- kantidad de ventas por genero / kantidad de entradas por genero / cual es la pelikula mas vista por cada genero
 
 
 
+#4 Zein sarrera mota erosten den gehien
 
+SELECT idMota
+FROM EROSKETA
+WHERE kant = (
+    SELECT MAX(total_kant)
+    FROM (
+        SELECT idMota, SUM(kant) AS total_kant
+        FROM EROSKETA
+        GROUP BY idMota
+    ) AS subquery
+);
+
+#5 Nork egiten dituen erosketa gehien emakumeak edo gizonak
+
+
+
+#6 Zein ordutan ikusten dira filma gehiago
+
+
+
+#7 Bezero gutxien dituen zinema, bezero-kopurua adierazita
+
+
+
+#8 Zineman areto gehien dituzten zineek proiektatutako filmen batez besteko iraupena
+
+
+
+-------------------------------------------------------------------------------------------
+
+ select *
+from EROSKETA inner join SARRERA using (idErosketa);
+
+-- set diru_totala = diru_totala + (
+	-- select sum(S.diru_totala)
+    -- from SARRERA S
+	-- where S.idErosketa = EROSKETAK.idErosketa;
