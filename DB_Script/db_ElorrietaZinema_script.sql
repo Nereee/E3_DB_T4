@@ -283,13 +283,23 @@ JOIN SAIOA sa ON f.idFilma = sa.idFilma
 JOIN SARRERA s ON sa.idSaioa = s.idSaioa
 join erosketa e using (iderosketa)
 GROUP BY f.izena
-ORDER BY Erosketa DESC
+ORDER BY 1 DESC
 LIMIT 5;
 
 
     
 #2Film gehien ikusi dituzten erabiltzaileak
-                                                -- Erosketak dira zenbat erosketan egin diren, ez zenbat sarrera erosi diren.
+  
+  Select b.izena , count(s.idSarrera)
+From bezeroa b
+left join erosketa e using (idbezero)
+left join sarrera s using (iderosketa)
+group by b.izena
+order by 2 desc
+limit 10;
+ 
+-- 2.b Erosketa gehien daukaten filmak
+  
 SELECT f.izena AS Pelickula, COUNT(s.idSarrera) AS Erosketak -- S.idErosketa
 FROM FILMA f
 JOIN SAIOA sa ON f.idFilma = sa.idFilma 
@@ -298,29 +308,36 @@ GROUP BY f.izena
 ORDER BY Erosketak DESC
 LIMIT 5;
 
-SELECT b.izena AS izena_bezeroa, COUNT(s.idErosketa) AS pelikula_kopurua
-FROM BEZEROA b
-LEFT JOIN EROSKETA e ON b.idBezero = e.idBezero
-LEFT JOIN SARRERA s ON e.idErosketa = s.idErosketa
-GROUP BY b.izena
-ORDER BY pelikula_kopurua DESC
-LIMIT 5;
 
 
-Select b.izena , count(s.idSarrera)
-From bezeroa b
-left join erosketa e using (idbezero)
-left join sarrera s using (iderosketa)
-group by b.izena
-order by 2 desc
-limit 10;
 #3 Film genero bakoitzeko, estadistikak
 
+SELECT f.generoa AS 'Genero', sum(e.kant) AS 'Erosketa Kantitatea'
+FROM FILMA f
+JOIN SAIOA sa using (idfilma)
+JOIN SARRERA s using (idsaioa)
+JOIN erosketa e using (iderosketa)
+group by f.generoa
+ORDER BY sum(e.kant) DESC;
 
 
+-- 3.b
+
+SELECT f.generoa AS 'Genero', sum(e.kant) AS 'Erosketa Kantitatea'
+FROM FILMA f
+JOIN SAIOA sa using (idfilma)
+JOIN SARRERA s using (idsaioa)
+JOIN erosketa e using (iderosketa)
+group by f.generoa
+ORDER BY sum(e.kant) DESC
+limit 1;
 
 
--- kantidad de ventas por genero / kantidad de entradas por genero / cual es la pelikula mas vista por cada genero
+-- 3.c filmak , generoetan bananduta bere iraupenarekin
+
+SELECT f.generoa , f.izena , f.iraupena-- S.idErosketa
+FROM FILMA f
+GROUP BY f.izena, f.generoa;
 
 
 
@@ -333,26 +350,27 @@ WHERE kant = (
     FROM (
         SELECT idMota, SUM(kant) AS total_kant
         FROM EROSKETA
-        GROUP BY idMota
-    ) AS subquery
-);
+    ) AS idMota
+) group by idmota
+limit 1;
 
--- ----------------------------------#5 
-select idBezero
-from BEZEROA              -- cojer la variable del erabiltzailea    
-where erabiltzailea like "pedrosanchez";
+-- #5 Nork egiten dituen erosketa gehien emakumeak edo gizonak.
+SELECT b.sexua, COUNT(s.idSarrera) AS kantitatea
+FROM SARRERA s
+LEFT JOIN EROSKETA e ON s.idErosketa = e.idErosketa
+LEFT JOIN BEZEROA b ON e.idBezero = b.idBezero
+GROUP BY b.sexua
+ORDER BY kantitatea DESC
+LIMIT 1;
 
--- ----------------------------------#6 Jakin zein pelikulak ikusten dira zein zinemetan 
 
+#6 Zein ordutan ikusten dira filma gehiago.
 
-select f.izena, z.izena
-from saioa s 
-left join zinema z using (idZinema)
-left join filma f using (idFilma)
-group by f.izena, z.izena;
-
--- ----------------------------------1.Zine 2.Pelikula 3.Data 4.Erosketa (Java)
--- ----------------------------------1.Pelikula 2.Zine 3.Data 4.Saioa 5.Erosketa (html)
+SELECT s.Ordua, COUNT(sa.idSarrera) AS Filma_Gehiago
+FROM SAIOA s 
+LEFT JOIN SARRERA sa USING (idSaioa)
+GROUP BY s.Ordua
+ORDER BY Filma_Gehiago DESC;
 
 
 
@@ -378,4 +396,13 @@ LEFT JOIN SAIOA s ON a.idAretoa = s.idAretoa AND a.idZinema = s.idZinema
 LEFT JOIN FILMA f ON s.idFilma = f.idFilma
 GROUP BY z.idZinema
 ORDER BY Batez_Besteko_Iraupena ASC;
+
+#extra Jakin zein pelikulak ikusten dira zein zinemetan 
+
+
+select f.izena, z.izena
+from saioa s 
+left join zinema z using (idZinema)
+left join filma f using (idFilma)
+group by f.izena, z.izena;
 
