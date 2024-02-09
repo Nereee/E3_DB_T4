@@ -1,4 +1,4 @@
--- DROP DATABASE IF EXISTS db_ElorrietaZinema;
+DROP DATABASE IF EXISTS db_ElorrietaZinema;
 
 CREATE DATABASE IF NOT EXISTS db_ElorrietaZinema;
 USE db_ElorrietaZinema;
@@ -45,7 +45,7 @@ idBezero INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 NAN VARCHAR(15) UNIQUE NOT NULL,
 izena VARCHAR(20),
 abizena VARCHAR(20),
-erabiltzailea VARCHAR(20),
+erabiltzailea VARCHAR(20) UNIQUE NOT NULL,
 pasahitza VARCHAR(20),
 txartela int,
 tlf_zbk int,
@@ -70,6 +70,7 @@ FOREIGN KEY (idBezero) REFERENCES BEZEROA (idBezero) ON DELETE CASCADE,
 FOREIGN KEY (idMota) REFERENCES SARRERAMOTA (idMota) ON DELETE CASCADE
 );
 
+
 CREATE TABLE SARRERA(
 
 idSarrera INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -80,7 +81,6 @@ FOREIGN KEY (idErosketa) REFERENCES EROSKETA (idErosketa) ON DELETE CASCADE,
 FOREIGN KEY (idSaioa) REFERENCES SAIOA (idSaioa) ON DELETE CASCADE
 
 );
-
 
 
 ------------------------------------------------------------------------------------------------------ DATUAK EZARRI -----------------------------------------------------------------------------------------------------------------------------
@@ -204,6 +204,9 @@ VALUES
 INSERT INTO SARRERAMOTA (kostua, idMota) 
 VALUES (8.90, 1),(6.90, 2),(6.90, 3);
 
+-- SAIOAK INPORTATU BEHAR DIRA!!! EXCEL ERANTSI!
+
+
 -- EROSKETA taulan txertatzea
 INSERT INTO EROSKETA (kant, eguna, idmota, idBezero)
 VALUES
@@ -218,9 +221,7 @@ VALUES
 (2, 169),
 (3, 169);
 
-
--- -------------------------KONTSULTAK-------------------------------------------------------------
-
+-- ----------------------------------------------------------------- KONTSULTAK ------------------------------------------------------------------------------------------------------------------
 #1 Iaz diru gehien aportatu duten filmen zerrenda osoa dementsio
 #desberdinak erabiliz aztertzeko.
 
@@ -228,7 +229,7 @@ VALUES
 
     
 #2Film gehien ikusi dituzten erabiltzaileak
-												-- Erosketak dira zenbat erosketan egin diren, ez zenbat sarrera erosi diren.
+                                                -- Erosketak dira zenbat erosketan egin diren, ez zenbat sarrera erosi diren.
 SELECT f.izena AS Pelickula, COUNT(s.idSarrera) AS Erosketak -- S.idErosketa
 FROM FILMA f
 JOIN SAIOA sa ON f.idFilma = sa.idFilma 
@@ -256,11 +257,14 @@ WHERE kant = (
     ) AS subquery
 );
 
-#5 Nork egiten dituen erosketa gehien emakumeak edo gizonak
+-- ----------------------------------#5 
+select idBezero
+from BEZEROA              -- cojer la variable del erabiltzailea    
+where erabiltzailea like "pedrosanchez";
 
-
-
-#6 Zein ordutan ikusten dira filma gehiago
+-- ----------------------------------#6 Jakin zein pelikulak ikusten dira zein zinemetan 
+-- ----------------------------------1.Zine 2.Pelikula 3.Data 4.Erosketa (Java)
+-- ----------------------------------1.Pelikula 2.Zine 3.Data 4.Saioa 5.Erosketa (html)
 
 
 
@@ -269,15 +273,3 @@ WHERE kant = (
 
 
 #8 Zineman areto gehien dituzten zineek proiektatutako filmen batez besteko iraupena
-
-
-
--------------------------------------------------------------------------------------------
-
- select *
-from EROSKETA inner join SARRERA using (idErosketa);
-
--- set diru_totala = diru_totala + (
-	-- select sum(S.diru_totala)
-    -- from SARRERA S
-	-- where S.idErosketa = EROSKETAK.idErosketa;
