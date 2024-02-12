@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-02-2024 a las 13:50:26
+-- Tiempo de generación: 12-02-2024 a las 12:52:44
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -71,7 +71,7 @@ INSERT INTO `aretoa` (`idAretoa`, `izena`, `idZinema`) VALUES
 --
 
 CREATE TABLE `bezeroa` (
-  `idBezero` int(10) UNSIGNED NOT NULL,
+  `idBezero` varchar(5) NOT NULL,
   `NAN` varchar(15) NOT NULL,
   `izena` varchar(20) DEFAULT NULL,
   `abizena` varchar(20) DEFAULT NULL,
@@ -87,16 +87,12 @@ CREATE TABLE `bezeroa` (
 --
 
 INSERT INTO `bezeroa` (`idBezero`, `NAN`, `izena`, `abizena`, `erabiltzailea`, `pasahitza`, `txartela`, `tlf_zbk`, `sexua`) VALUES
-(1, '12345678A', 'Juan', 'Pérez', 'juanperez', 'pasahitza', 12345678, 666123456, 'Gizonezkoa'),
-(2, '98765432B', 'María', 'González', 'mariagonzalez', 'pasahitza123', 98765432, 666234567, 'Emakumezkoa'),
-(3, '13579135C', 'Luis', 'Martínez', 'luismartinez', '123456', 13579135, 666345678, 'Gizonezkoa'),
-(4, '24681357D', 'Ana', 'López', 'analorena', 'abcd1234', 24681357, 666456789, 'Emakumezkoa'),
-(5, '15975328E', 'Pedro', 'Sánchez', 'pedrosanchez', 'pasahitza', 15975328, 666567890, 'Gizonezkoa'),
-(6, '36925814F', 'Laura', 'Díaz', 'lauradiaz', 'abcd', 36925814, 666678901, 'Emakumezkoa'),
-(7, '75395128G', 'Iker', 'Sanchez', 'ikersanchez', 'pasahitza123', 75395128, 666789012, 'Gizonezkoa'),
-(8, '85214796H', 'Paula', 'Pinta', 'paulapinta', 'abcd1234', 85214796, 666890123, 'Emakumezkoa'),
-(9, '45612378I', 'Hegoi', 'Vazquez', 'hegoivazquez', '123456', 45612378, 666901234, 'Gizonezkoa'),
-(10, '98741236J', 'Mikel', 'Martin', 'mikelmartin', 'password', 98741236, 666012345, 'Gizonezkoa');
+('B01', '12345678A', 'Juan', 'Pérez', 'juanperez', 'pasahitza', 12345678, 666123456, 'Gizonezkoa'),
+('B02', '98765432B', 'María', 'González', 'mariagonzalez', 'pasahitza123', 98765432, 666234567, 'Emakumezkoa'),
+('B03', '13579135C', 'Luis', 'Martínez', 'luismartinez', '123456', 13579135, 666345678, 'Gizonezkoa'),
+('B04', '24681357D', 'Ana', 'López', 'analorena', 'abcd1234', 24681357, 666456789, 'Emakumezkoa'),
+('B05', '15975328E', 'Pedro', 'Sánchez', 'pedrosanchez', 'pasahitza', 15975328, 666567890, 'Gizonezkoa'),
+('B06', '36925814F', 'Laura', 'Díaz', 'lauradiaz', 'abcd', 36925814, 666678901, 'Emakumezkoa');
 
 -- --------------------------------------------------------
 
@@ -111,20 +107,21 @@ CREATE TABLE `erosketa` (
   `deskontua` double DEFAULT NULL,
   `diru_totala` double DEFAULT NULL,
   `idMota` int(10) UNSIGNED NOT NULL,
-  `idBezero` int(10) UNSIGNED DEFAULT NULL
+  `idBezero` varchar(5) DEFAULT NULL,
+  `idLangile` varchar(5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `erosketa`
 --
 
-INSERT INTO `erosketa` (`idErosketa`, `kant`, `eguna`, `deskontua`, `diru_totala`, `idMota`, `idBezero`) VALUES
-(1, 3, '2024-02-09', NULL, NULL, 2, 9),
-(2, 5, '2024-02-10', NULL, NULL, 1, 8),
-(3, 5, '2024-02-10', NULL, NULL, 1, 7),
-(4, 5, '2023-04-01', NULL, NULL, 1, 10),
-(5, 5, '2023-04-01', NULL, NULL, 1, 8),
-(6, 5, '2023-04-01', NULL, NULL, 1, 5);
+INSERT INTO `erosketa` (`idErosketa`, `kant`, `eguna`, `deskontua`, `diru_totala`, `idMota`, `idBezero`, `idLangile`) VALUES
+(1, 3, '2024-02-09', 0, 0, 2, 'B02', NULL),
+(2, 5, '2024-02-10', 0, 0, 1, 'B01', NULL),
+(3, 5, '2024-02-10', 0, 0, 1, 'B03', NULL),
+(4, 5, '2023-04-01', 0, 0, 1, 'B04', NULL),
+(5, 5, '2023-04-01', 0, 0, 1, NULL, 'L01'),
+(6, 5, '2023-04-01', 0, 0, 1, NULL, 'L01');
 
 -- --------------------------------------------------------
 
@@ -181,6 +178,34 @@ INSERT INTO `filma` (`idFilma`, `izena`, `iraupena`, `argitarapenData`, `generoa
 (34, 'El resplandor', 146, '1980-06-13', 'Terror'),
 (35, 'Drácula', 155, '1931-02-14', 'Terror'),
 (36, 'Cisne negro', 110, '2010-12-03', 'Terror');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `langilea`
+--
+
+CREATE TABLE `langilea` (
+  `idLangile` varchar(5) NOT NULL,
+  `NAN` varchar(15) NOT NULL,
+  `izena` varchar(20) DEFAULT NULL,
+  `abizena` varchar(20) DEFAULT NULL,
+  `erabiltzailea` varchar(20) NOT NULL,
+  `pasahitza` varchar(20) DEFAULT NULL,
+  `txartela` int(11) DEFAULT NULL,
+  `tlf_zbk` int(11) DEFAULT NULL,
+  `sexua` varchar(15) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Volcado de datos para la tabla `langilea`
+--
+
+INSERT INTO `langilea` (`idLangile`, `NAN`, `izena`, `abizena`, `erabiltzailea`, `pasahitza`, `txartela`, `tlf_zbk`, `sexua`) VALUES
+('L01', '75395128G', 'Iker', 'Sanchez', 'ikersanchez', 'pasahitza123', 75395128, 666789012, 'Gizonezkoa'),
+('L02', '85214796H', 'Paula', 'Pinta', 'paulapinta', 'abcd1234', 85214796, 666890123, 'Emakumezkoa'),
+('L03', '45612378I', 'Hegoi', 'Vazquez', 'hegoivazquez', '123456', 45612378, 666901234, 'Gizonezkoa'),
+('L04', '98741236J', 'Mikel', 'Martin', 'mikelmartin', 'password', 98741236, 666012345, 'Gizonezkoa');
 
 -- --------------------------------------------------------
 
@@ -1961,14 +1986,23 @@ ALTER TABLE `bezeroa`
 --
 ALTER TABLE `erosketa`
   ADD PRIMARY KEY (`idErosketa`),
+  ADD KEY `idMota` (`idMota`),
   ADD KEY `idBezero` (`idBezero`),
-  ADD KEY `idMota` (`idMota`);
+  ADD KEY `idLangile` (`idLangile`);
 
 --
 -- Indices de la tabla `filma`
 --
 ALTER TABLE `filma`
   ADD PRIMARY KEY (`idFilma`);
+
+--
+-- Indices de la tabla `langilea`
+--
+ALTER TABLE `langilea`
+  ADD PRIMARY KEY (`idLangile`),
+  ADD UNIQUE KEY `NAN` (`NAN`),
+  ADD UNIQUE KEY `erabiltzailea` (`erabiltzailea`);
 
 --
 -- Indices de la tabla `saioa`
@@ -2002,12 +2036,6 @@ ALTER TABLE `zinema`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
-
---
--- AUTO_INCREMENT de la tabla `bezeroa`
---
-ALTER TABLE `bezeroa`
-  MODIFY `idBezero` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `erosketa`
@@ -2047,8 +2075,9 @@ ALTER TABLE `aretoa`
 -- Filtros para la tabla `erosketa`
 --
 ALTER TABLE `erosketa`
-  ADD CONSTRAINT `erosketa_ibfk_1` FOREIGN KEY (`idBezero`) REFERENCES `bezeroa` (`idBezero`) ON DELETE CASCADE,
-  ADD CONSTRAINT `erosketa_ibfk_2` FOREIGN KEY (`idMota`) REFERENCES `sarreramota` (`idMota`) ON DELETE CASCADE;
+  ADD CONSTRAINT `erosketa_ibfk_1` FOREIGN KEY (`idMota`) REFERENCES `sarreramota` (`idMota`) ON DELETE CASCADE,
+  ADD CONSTRAINT `erosketa_ibfk_2` FOREIGN KEY (`idBezero`) REFERENCES `bezeroa` (`idBezero`) ON DELETE CASCADE,
+  ADD CONSTRAINT `erosketa_ibfk_3` FOREIGN KEY (`idLangile`) REFERENCES `langilea` (`idLangile`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `saioa`

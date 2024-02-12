@@ -41,7 +41,7 @@ FOREIGN KEY (idAretoa, idZinema) REFERENCES ARETOA (idAretoa, idZinema) ON DELET
 );
 
 CREATE TABLE BEZEROA (
-idBezero INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+idBezero varchar(5) PRIMARY KEY,
 NAN VARCHAR(15) UNIQUE NOT NULL,
 izena VARCHAR(20),
 abizena VARCHAR(20),
@@ -53,22 +53,39 @@ sexua varchar(15)
 
 );
 
+CREATE TABLE LANGILEA (
+idLangile varchar(5) PRIMARY KEY,
+NAN VARCHAR(15) UNIQUE NOT NULL,
+izena VARCHAR(20),
+abizena VARCHAR(20),
+erabiltzailea VARCHAR(20) UNIQUE NOT NULL,
+pasahitza VARCHAR(20),
+txartela int,
+tlf_zbk int,
+sexua varchar(15)
+);
+
 CREATE TABLE SARRERAMOTA(
 kostua double,
 idMota int unsigned primary key 
 );
 
 CREATE TABLE EROSKETA (
-idErosketa INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-kant smallint,
-eguna VARCHAR(15),
-deskontua double,
-diru_totala double,
-idMota int unsigned not null,
-idBezero INT UNSIGNED,
-FOREIGN KEY (idBezero) REFERENCES BEZEROA (idBezero) ON DELETE CASCADE,
-FOREIGN KEY (idMota) REFERENCES SARRERAMOTA (idMota) ON DELETE CASCADE
+    idErosketa INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    kant SMALLINT,
+    eguna VARCHAR(15),
+    deskontua DOUBLE,
+    diru_totala DOUBLE,
+    idMota INT UNSIGNED NOT NULL,
+    idBezero VARCHAR(5), 
+    idLangile varchar(5),
+    FOREIGN KEY (idMota) REFERENCES SARRERAMOTA (idMota) ON DELETE CASCADE,
+    -- fk BEZEROA
+   FOREIGN KEY (idBezero) REFERENCES BEZEROA (idBezero) ON DELETE CASCADE,
+    -- fk LANGILEA
+   FOREIGN KEY (idLangile) REFERENCES LANGILEA (idLangile) ON DELETE CASCADE
 );
+
 
 
 CREATE TABLE SARRERA(
@@ -187,18 +204,23 @@ VALUES
 
 
 -- BEZEROA taulan txertatzea
-INSERT INTO BEZEROA (NAN, izena, abizena, erabiltzailea, pasahitza, txartela, tlf_zbk, sexua) 
+INSERT INTO BEZEROA (idBezero, NAN, izena, abizena, erabiltzailea, pasahitza, txartela, tlf_zbk, sexua) 
 VALUES 
-('12345678A', 'Juan', 'Pérez', 'juanperez', 'pasahitza', 12345678, 666123456, 'Gizonezkoa'),
-('98765432B', 'María', 'González', 'mariagonzalez', 'pasahitza123', 98765432, 666234567, 'Emakumezkoa'),
-('13579135C', 'Luis', 'Martínez', 'luismartinez', '123456', 13579135, 666345678, 'Gizonezkoa'),
-('24681357D', 'Ana', 'López', 'analorena', 'abcd1234', 24681357, 666456789, 'Emakumezkoa'),
-('15975328E', 'Pedro', 'Sánchez', 'pedrosanchez', 'pasahitza', 15975328, 666567890, 'Gizonezkoa'),
-('36925814F', 'Laura', 'Díaz', 'lauradiaz', 'abcd', 36925814, 666678901, 'Emakumezkoa'),
-('75395128G', 'Iker', 'Sanchez', 'ikersanchez', 'pasahitza123', 75395128, 666789012, 'Gizonezkoa'),
-('85214796H', 'Paula', 'Pinta', 'paulapinta', 'abcd1234', 85214796, 666890123, 'Emakumezkoa'),
-('45612378I', 'Hegoi', 'Vazquez', 'hegoivazquez', '123456', 45612378, 666901234, 'Gizonezkoa'),
-('98741236J', 'Mikel', 'Martin', 'mikelmartin', 'password', 98741236, 666012345, 'Gizonezkoa');
+('B01','12345678A', 'Juan', 'Pérez', 'juanperez', 'pasahitza', 12345678, 666123456, 'Gizonezkoa'),
+('B02','98765432B', 'María', 'González', 'mariagonzalez', 'pasahitza123', 98765432, 666234567, 'Emakumezkoa'),
+('B03','13579135C', 'Luis', 'Martínez', 'luismartinez', '123456', 13579135, 666345678, 'Gizonezkoa'),
+('B04','24681357D', 'Ana', 'López', 'analorena', 'abcd1234', 24681357, 666456789, 'Emakumezkoa'),
+('B05','15975328E', 'Pedro', 'Sánchez', 'pedrosanchez', 'pasahitza', 15975328, 666567890, 'Gizonezkoa'),
+('B06','36925814F', 'Laura', 'Díaz', 'lauradiaz', 'abcd', 36925814, 666678901, 'Emakumezkoa');
+
+-- Langile taulan txertatzea
+INSERT INTO Langilea (idLangile, NAN, izena, abizena, erabiltzailea, pasahitza, txartela, tlf_zbk, sexua) 
+VALUES 
+('L01','75395128G', 'Iker', 'Sanchez', 'ikersanchez', 'pasahitza123', 75395128, 666789012, 'Gizonezkoa'),
+('L02','85214796H', 'Paula', 'Pinta', 'paulapinta', 'abcd1234', 85214796, 666890123, 'Emakumezkoa'),
+('L03','45612378I', 'Hegoi', 'Vazquez', 'hegoivazquez', '123456', 45612378, 666901234, 'Gizonezkoa'),
+('L04','98741236J', 'Mikel', 'Martin', 'mikelmartin', 'password', 98741236, 666012345, 'Gizonezkoa');
+
 
 -- SARRERAMOTA taulan txertatzea
 INSERT INTO SARRERAMOTA (kostua, idMota) 
@@ -249,19 +271,21 @@ VALUES (8.90, 1),(6.90, 2),(6.90, 3);
 
 
 
+-- Erosketak WebGunean edo Aplikazioan egin daitezkeen adierazten diren. 
+-- WebGunean egin diren erosketetan langilea NULL izango da, 
+-- baina Aplikazioan egin diren erosketetan langileak beti bete behar du.
 
 
 
-
--- EROSKETA taulan txertatzea
-INSERT INTO EROSKETA (kant, eguna, idmota, idBezero)
+INSERT INTO EROSKETA (kant, eguna, deskontua, diru_totala, idMota, idBezero, idLangile)
 VALUES
-(3, '2024-02-09', 2, 9),
-(5, '2024-02-10', 1, 8),
-(5, '2024-02-10', 1, 7),
-(5, '2023-04-01', 1, 10),
-(5, '2023-04-01', 1, 8),
-(5, '2023-04-01', 1, 5);
+(3, '2024-02-09', 0, 0, 2, 'B02', NULL),  -- WebGunean erosketa , langile null
+(5, '2024-02-10', 0, 0, 1, 'B01', NULL),  -- WebGunean erosketa , langile null
+(5, '2024-02-10', 0, 0, 1, 'B03', NULL), -- WebGunean erosketa , langile null
+(5, '2023-04-01', 0, 0, 1, 'B04', NULL),  -- WebGunean erosketa , langile null
+(5, '2023-04-01', 0, 0, 1, NULL, 'L01'), -- Aplikazioan erosketa , langile bai
+(5, '2023-04-01', 0, 0, 1, NULL, 'L01');  -- Aplikazioan erosketa , langile bai
+
 -- SARRERA taulan txertatzea
 INSERT INTO SARRERA (idErosketa, idSaioa)
 VALUES
@@ -399,10 +423,39 @@ ORDER BY Batez_Besteko_Iraupena ASC;
 
 #extra Jakin zein pelikulak ikusten dira zein zinemetan 
 
+SELECT f.izena, z.izena
+FROM SAIOA s 
+LEFT JOIN ZINEMA z USING (idZinema)
+LEFT JOIN FILMA f USING (idFilma)
+GROUP BY f.izena, z.izena;
 
-select f.izena, z.izena
-from saioa s 
-left join zinema z using (idZinema)
-left join filma f using (idFilma)
-group by f.izena, z.izena;
+SELECT f.izena, z.izena
+FROM SAIOA s 
+LEFT JOIN ZINEMA z USING (idZinema)
+LEFT JOIN FILMA f USING (idFilma)
+WHERE s.Eguna = '2024-02-12'
+GROUP BY f.izena, z.izena;
 
+
+SELECT f.izena, z.izena, s.ordua, s.eguna, s.idaretoa
+FROM SAIOA s 
+LEFT JOIN ZINEMA z USING (idZinema)
+LEFT JOIN FILMA f USING (idFilma)
+WHERE s.Eguna = '2024-02-12' and z.idzinema = ("z01")
+GROUP BY f.izena, z.izena;
+
+
+
+SELECT f.izena, z.izena, s.ordua, s.eguna, s.idaretoa
+FROM SAIOA s 
+LEFT JOIN ZINEMA z USING (idZinema)
+LEFT JOIN FILMA f USING (idFilma)
+WHERE s.Eguna = '2024-02-12' and s.ordua = ("19:00") and z.idzinema = ("z01")
+GROUP BY f.izena, z.izena;
+
+
+SELECT f.izena, z.izena, s.ordua, s.eguna, s.idaretoa
+FROM filma f 
+LEFT JOIN saioa s USING (idfilma)
+LEFT JOIN zinema z USING (idzinema)
+WHERE f.izena = ("anabelle");
