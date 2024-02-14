@@ -34,8 +34,8 @@ idSaioa INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 idFilma INT UNSIGNED,
 idZinema  VARCHAR(15),
 idAretoa VARCHAR(10),
-Eguna VARCHAR(15),
-Ordua VARCHAR(15),
+Eguna DATE,
+Ordua time,
 FOREIGN KEY (idFilma) REFERENCES FILMA (idFilma) ON DELETE CASCADE,
 FOREIGN KEY (idAretoa, idZinema) REFERENCES ARETOA (idAretoa, idZinema) ON DELETE CASCADE
 );
@@ -73,17 +73,16 @@ idMota int unsigned primary key
 CREATE TABLE EROSKETA (
     idErosketa INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     kant SMALLINT,
-    eguna VARCHAR(15),
+    Eguna DATE,
     deskontua DOUBLE,
     diru_totala DOUBLE,
     idMota INT UNSIGNED NOT NULL,
     idBezero VARCHAR(5), 
-    idLangile varchar(5),
+    jatorria enum ("Fisikoa","Online"),
     FOREIGN KEY (idMota) REFERENCES SARRERAMOTA (idMota) ON DELETE CASCADE,
     -- fk BEZEROA
-   FOREIGN KEY (idBezero) REFERENCES BEZEROA (idBezero) ON DELETE CASCADE,
+   FOREIGN KEY (idBezero) REFERENCES BEZEROA (idBezero) ON DELETE CASCADE
     -- fk LANGILEA
-   FOREIGN KEY (idLangile) REFERENCES LANGILEA (idLangile) ON DELETE CASCADE
 );
 
 
@@ -277,14 +276,19 @@ VALUES (8.90, 1),(6.90, 2),(6.90, 3);
 
 
 
-INSERT INTO EROSKETA (kant, eguna, deskontua, diru_totala, idMota, idBezero, idLangile)
+INSERT INTO EROSKETA (kant, eguna, deskontua, diru_totala, idMota, idBezero, jatorria) -- Web gunean
 VALUES
-(3, '2024-02-09', 0, 0, 2, 'B02', NULL),  -- WebGunean erosketa , langile null
-(5, '2024-02-10', 0, 0, 1, 'B01', NULL),  -- WebGunean erosketa , langile null
-(5, '2024-02-10', 0, 0, 1, 'B03', NULL), -- WebGunean erosketa , langile null
-(5, '2023-04-01', 0, 0, 1, 'B04', NULL),  -- WebGunean erosketa , langile null
-(5, '2023-04-01', 0, 0, 1, NULL, 'L01'), -- Aplikazioan erosketa , langile bai
-(5, '2023-04-01', 0, 0, 1, NULL, 'L01');  -- Aplikazioan erosketa , langile bai
+(3, '2024-02-09', 0, 0, 2, 'B02',	"Online" ),  
+(5, '2024-02-10', 0, 0, 1, 'B01',	"Online"  ),  
+(5, '2024-02-10', 0, 0, 1, 'B03',	"Online"  ), 
+(5, '2023-04-01', 0, 0, 1, 'B04',	"Online"  );  
+
+INSERT INTO EROSKETA (kant, eguna, deskontua, diru_totala, idMota, idBezero, jatorria) -- APP gunean
+VALUES
+(3, '2023-04-01', 0, 0, 2, 'B02',	"Fisikoa" ),  
+(5, '2023-04-01', 0, 0, 1, 'B01',	"Fisikoa"  ); 
+
+
 
 -- SARRERA taulan txertatzea
 INSERT INTO SARRERA (idErosketa, idSaioa)
