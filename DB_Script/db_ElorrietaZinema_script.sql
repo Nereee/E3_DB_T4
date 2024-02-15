@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS db_ElorrietaZinema;
+DROP DATABASE IF EXISTS db_ElorrietaZinemaT4;
 
-CREATE DATABASE IF NOT EXISTS db_ElorrietaZinema;
-USE db_ElorrietaZinema;
+CREATE DATABASE IF NOT EXISTS db_ElorrietaZinemaT4;
+USE db_ElorrietaZinemaT4;
 
 CREATE TABLE ZINEMA (
 idZinema VARCHAR(15) primary key,
@@ -53,18 +53,6 @@ sexua varchar(15)
 
 );
 
-CREATE TABLE LANGILEA (
-idLangile varchar(5) PRIMARY KEY,
-NAN VARCHAR(15) UNIQUE NOT NULL,
-izena VARCHAR(20),
-abizena VARCHAR(20),
-erabiltzailea VARCHAR(20) UNIQUE NOT NULL,
-pasahitza VARCHAR(20),
-txartela int,
-tlf_zbk int,
-sexua varchar(15)
-);
-
 CREATE TABLE SARRERAMOTA(
 kostua double,
 idMota int unsigned primary key 
@@ -111,7 +99,7 @@ VALUES
 ('Z02','321354154B', 'ERANDIO ZINEMA', 'Ramon Rubial Kalea, 2, 48950 Erandio, Bizkaia', 944673248),
 ('Z03','564651436X', 'BARAKALDO ZINEMA', 'San José Kalea, 0, Santa Teresa, 48901 Barakaldo, Bizkaia', 944372881),
 ('Z04','476864654A', 'SANTUXU ZINEMA', 'De la Cosa Juan Kalea, 25, 48004 Bilbo, Bizkaia', 944124811),
-('Z05','884216412A', 'BASAURI KALEA', 'Altube Kalea, 48970 Basauri, Bizkaia', 671921072);
+('Z05','884216412A', 'BASAURI ZINEMA', 'Altube Kalea, 48970 Basauri, Bizkaia', 671921072);
 
      
 
@@ -205,21 +193,13 @@ VALUES
 -- BEZEROA taulan txertatzea
 INSERT INTO BEZEROA (idBezero, NAN, izena, abizena, erabiltzailea, pasahitza, txartela, tlf_zbk, sexua) 
 VALUES 
+('B00','12345678X', 'admin', 'admin', 'admin', 'admin', 12345678, 666123456, 'admin'),
 ('B01','12345678A', 'Juan', 'Pérez', 'juanperez', 'pasahitza', 12345678, 666123456, 'Gizonezkoa'),
 ('B02','98765432B', 'María', 'González', 'mariagonzalez', 'pasahitza123', 98765432, 666234567, 'Emakumezkoa'),
 ('B03','13579135C', 'Luis', 'Martínez', 'luismartinez', '123456', 13579135, 666345678, 'Gizonezkoa'),
 ('B04','24681357D', 'Ana', 'López', 'analorena', 'abcd1234', 24681357, 666456789, 'Emakumezkoa'),
 ('B05','15975328E', 'Pedro', 'Sánchez', 'pedrosanchez', 'pasahitza', 15975328, 666567890, 'Gizonezkoa'),
 ('B06','36925814F', 'Laura', 'Díaz', 'lauradiaz', 'abcd', 36925814, 666678901, 'Emakumezkoa');
-
--- Langile taulan txertatzea
-INSERT INTO Langilea (idLangile, NAN, izena, abizena, erabiltzailea, pasahitza, txartela, tlf_zbk, sexua) 
-VALUES 
-('L01','75395128G', 'Iker', 'Sanchez', 'ikersanchez', 'pasahitza123', 75395128, 666789012, 'Gizonezkoa'),
-('L02','85214796H', 'Paula', 'Pinta', 'paulapinta', 'abcd1234', 85214796, 666890123, 'Emakumezkoa'),
-('L03','45612378I', 'Hegoi', 'Vazquez', 'hegoivazquez', '123456', 45612378, 666901234, 'Gizonezkoa'),
-('L04','98741236J', 'Mikel', 'Martin', 'mikelmartin', 'password', 98741236, 666012345, 'Gizonezkoa');
-
 
 -- SARRERAMOTA taulan txertatzea
 INSERT INTO SARRERAMOTA (kostua, idMota) 
@@ -281,13 +261,9 @@ VALUES
 (3, '2024-02-09', 0, 0, 2, 'B02',	"Online" ),  
 (5, '2024-02-10', 0, 0, 1, 'B01',	"Online"  ),  
 (5, '2024-02-10', 0, 0, 1, 'B03',	"Online"  ), 
-(5, '2023-04-01', 0, 0, 1, 'B04',	"Online"  );  
-
-INSERT INTO EROSKETA (kant, eguna, deskontua, diru_totala, idMota, idBezero, jatorria) -- APP gunean
-VALUES
+(5, '2023-04-01', 0, 0, 1, 'B04',	"Online"  ), 
 (3, '2023-04-01', 0, 0, 2, 'B02',	"Fisikoa" ),  
 (5, '2023-04-01', 0, 0, 1, 'B01',	"Fisikoa"  ); 
-
 
 
 -- SARRERA taulan txertatzea
