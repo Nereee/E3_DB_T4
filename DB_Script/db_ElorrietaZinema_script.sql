@@ -59,18 +59,19 @@ idMota int unsigned primary key
 );
 
 CREATE TABLE EROSKETA (
-    idErosketa INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    kant SMALLINT,
+    idErosketa INT UNSIGNED AUTO_INCREMENT,
     Eguna DATE,
     deskontua DOUBLE,
     diru_totala DOUBLE,
     idMota INT UNSIGNED NOT NULL,
     idBezero VARCHAR(5), 
     jatorria enum ("Fisikoa","Online"),
-    FOREIGN KEY (idMota) REFERENCES SARRERAMOTA (idMota) ON DELETE CASCADE,
+    FOREIGN KEY (idMota) REFERENCES SARRERAMOTA (idMota) ON DELETE CASCADE,  
+    PRIMARY KEY(idErosketa, idMota),
     -- fk BEZEROA
-   FOREIGN KEY (idBezero) REFERENCES BEZEROA (idBezero) ON DELETE CASCADE
+	FOREIGN KEY (idBezero) REFERENCES BEZEROA (idBezero) ON DELETE CASCADE
     -- fk LANGILEA
+    
 );
 
 
@@ -80,7 +81,7 @@ CREATE TABLE SARRERA(
 idSarrera INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 idErosketa INT UNSIGNED,
 idSaioa INT UNSIGNED,
-
+sarreraKant int unsigned,
 FOREIGN KEY (idErosketa) REFERENCES EROSKETA (idErosketa) ON DELETE CASCADE,
 FOREIGN KEY (idSaioa) REFERENCES SAIOA (idSaioa) ON DELETE CASCADE
 
@@ -199,11 +200,11 @@ VALUES
 ('B03','13579135C', 'Luis', 'Martínez', 'luismartinez', '123456', 13579135, 666345678, 'Gizonezkoa'),
 ('B04','24681357D', 'Ana', 'López', 'analorena', 'abcd1234', 24681357, 666456789, 'Emakumezkoa'),
 ('B05','15975328E', 'Pedro', 'Sánchez', 'pedrosanchez', 'pasahitza', 15975328, 666567890, 'Gizonezkoa'),
-('B06','36925814F', 'Laura', 'Díaz', 'lauradiaz', 'abcd', 36925814, 666678901, 'Emakumezkoa');
+('B06','36925814F', 'Laura', 'Díaz', 'lauradiaz', 'abcd', 36925814, 666678901, 'Other');
 
 -- SARRERAMOTA taulan txertatzea
 INSERT INTO SARRERAMOTA (kostua, idMota) 
-VALUES (8.90, 1),(6.90, 2),(6.90, 3);
+VALUES (8.90, 1),(6.90, 2),(6.90, 3),(6.90,4);
 
 -- ----------------------------------------------------------------- WARNING ------------------------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------- WARNING ------------------------------------------------------------------------------------------------------------------
@@ -256,25 +257,25 @@ VALUES (8.90, 1),(6.90, 2),(6.90, 3);
 
 
 
-INSERT INTO EROSKETA (kant, eguna, deskontua, diru_totala, idMota, idBezero, jatorria) -- Web gunean
+INSERT INTO EROSKETA ( eguna, deskontua, diru_totala, idMota, idBezero, jatorria) -- Web gunean
 VALUES
-(3, '2024-02-09', 0, 0, 2, 'B02',	"Online" ),  
-(5, '2024-02-10', 0, 0, 1, 'B01',	"Online"  ),  
-(5, '2024-02-10', 0, 0, 1, 'B03',	"Online"  ), 
-(5, '2023-04-01', 0, 0, 1, 'B04',	"Online"  ), 
-(3, '2023-04-01', 0, 0, 2, 'B02',	"Fisikoa" ),  
-(5, '2023-04-01', 0, 0, 1, 'B01',	"Fisikoa"  ); 
+( '2024-02-09', 0, 0, 2, 'B02',	"Online" ),  
+( '2024-02-10', 0, 0, 1, 'B01',	"Online"  ),  
+( '2024-02-10', 0, 0, 1, 'B03',	"Online"  ), 
+( '2023-04-01', 0, 0, 1, 'B04',	"Online"  ), 
+( '2023-04-01', 0, 0, 4, 'B02',	"Fisikoa" ),  
+( '2023-04-01', 0, 0, 1, 'B01',	"Fisikoa"  ); 
 
 
 -- SARRERA taulan txertatzea
-INSERT INTO SARRERA (idErosketa, idSaioa)
+INSERT INTO SARRERA (idErosketa, idSaioa, sarreraKant)
 VALUES
-(1, 100),
-(2, 169),
-(3, 169),
-(4, 1),
-(5, 2),
-(6, 3);
+(1, 100 , 3),
+(2, 169, 7),
+(3, 169, 1),
+(4, 1, 2),
+(5, 2, 6),
+(6, 3, 4);
 
 -- ----------------------------------------------------------------- KONTSULTAK ------------------------------------------------------------------------------------------------------------------
 #1 Iaz diru gehien aportatu duten filmen zerrenda osoa dementsio
