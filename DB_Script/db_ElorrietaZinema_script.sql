@@ -108,7 +108,7 @@ VALUES
 -- FILMA taulan txertatzea
 INSERT INTO FILMA (izena, generoa, iraupena, argitarapenData) 
 VALUES 
-('Expediente Warren: The Conjuring', 'Beldurra', 112, '2022-01-15'),
+('Expediente Warren, The Conjuring', 'Beldurra', 112, '2022-01-15'),
 ('Get Out', 'Beldurra', 104, '2017-02-24'),
 ('Hereditary', 'Beldurra', 127, '2018-06-04'),
 ('El Exorcista', 'Beldurra', 122, '1973-12-26'),
@@ -132,7 +132,7 @@ VALUES
 ('La lista de Schindler', 'Drama', 197, '1993-12-15'),
 ('Cadena Perpetua', 'Drama', 142, '1994-10-14'),
 ('Million Dollar Baby', 'Drama', 133, '2005-12-15'),
-('2001: Odisea en el espacio', 'Sci-Fi', 142, '1968-04-03'),
+('2001, Odisea en el espacio', 'Sci-Fi', 142, '1968-04-03'),
 ('La novia de Frankenstein', 'Sci-Fi', 75, '1935-04-22'),
 ('El planeta de los simios', 'Sci-Fi', 115, '1968-02-08'),
 ('Alien, el octavo pasajero', 'Sci-Fi', 117, '1979-05-25'),
@@ -440,3 +440,4 @@ FROM filma f
 LEFT JOIN saioa s USING (idfilma)
 LEFT JOIN zinema z USING (idzinema)
 WHERE f.izena = ("anabelle");
+	
