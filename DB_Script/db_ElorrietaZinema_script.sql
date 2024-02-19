@@ -1,6 +1,8 @@
 DROP DATABASE IF EXISTS db_ElorrietaZinemaT4;
 
-CREATE DATABASE IF NOT EXISTS db_ElorrietaZinemaT4;
+CREATE DATABASE IF NOT EXISTS db_ElorrietaZinemaT4
+COLLATE utf8mb4_spanish_ci;
+
 USE db_ElorrietaZinemaT4;
 
 CREATE TABLE ZINEMA (
