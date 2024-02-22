@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-02-2024 a las 08:10:35
+-- Tiempo de generación: 22-02-2024 a las 10:14:22
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -31,7 +31,7 @@ CREATE TABLE `aretoa` (
   `idAretoa` varchar(10) NOT NULL,
   `izena` varchar(30) DEFAULT NULL,
   `idZinema` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `aretoa`
@@ -80,7 +80,7 @@ CREATE TABLE `bezeroa` (
   `txartela` int(11) DEFAULT NULL,
   `tlf_zbk` int(11) DEFAULT NULL,
   `sexua` varchar(15) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `bezeroa`
@@ -109,7 +109,7 @@ CREATE TABLE `erosketa` (
   `idMota` int(10) UNSIGNED NOT NULL,
   `idBezero` varchar(5) DEFAULT NULL,
   `jatorria` enum('Fisikoa','Online') DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `erosketa`
@@ -135,7 +135,7 @@ CREATE TABLE `filma` (
   `iraupena` int(11) DEFAULT NULL,
   `argitarapenData` varchar(15) DEFAULT NULL,
   `generoa` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `filma`
@@ -192,7 +192,7 @@ CREATE TABLE `saioa` (
   `idAretoa` varchar(10) DEFAULT NULL,
   `Eguna` date DEFAULT NULL,
   `Ordua` time DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `saioa`
@@ -1876,7 +1876,7 @@ CREATE TABLE `sarrera` (
   `idErosketa` int(10) UNSIGNED DEFAULT NULL,
   `idSaioa` int(10) UNSIGNED DEFAULT NULL,
   `sarreraKant` int(10) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `sarrera`
@@ -1899,7 +1899,7 @@ INSERT INTO `sarrera` (`idSarrera`, `idErosketa`, `idSaioa`, `sarreraKant`) VALU
 CREATE TABLE `sarreramota` (
   `kostua` double DEFAULT NULL,
   `idMota` int(10) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `sarreramota`
@@ -1923,7 +1923,7 @@ CREATE TABLE `zinema` (
   `izena` varchar(20) DEFAULT NULL,
   `helbidea` varchar(100) DEFAULT NULL,
   `telf` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `zinema`
